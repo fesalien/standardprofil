@@ -15,7 +15,7 @@ import sound from "./notification.wav"
 const Demandemp = ({ data }) => {
 
   const { Countdown } = Statistic;
-  const [timeLeft, setTimeLeft] = useState( Date.now() + 1000 * 60 * 1  ); 
+  const [timeLeft, setTimeLeft] = useState( Date.now() + 1000 * 60 * 1  );
   const [messageApi, contextHolder] = message.useMessage();
   // to confirm an order
   const steps = [
@@ -50,13 +50,14 @@ const Demandemp = ({ data }) => {
           duration: 4,
         });
       }).catch((error)=>{
+       console.log(error)
         messageApi.open({
           type: 'error',
           content: 'Echec de confirmation',
           duration: 4,
         });
       });
-      
+
     } catch (error) {
       console.error("Error deleting:", error);
     }
@@ -69,7 +70,7 @@ const Demandemp = ({ data }) => {
       message: reference,
       description: "Demande de matiere non livrée",
     });
-    
+
     new Audio(sound).play()
   };
 
@@ -79,7 +80,7 @@ const Demandemp = ({ data }) => {
     }, 1000);
 
     if(timeLeft === 0) {
-      clearInterval(interval); 
+      clearInterval(interval);
     }
 
     return () => clearInterval(interval);
@@ -87,7 +88,7 @@ const Demandemp = ({ data }) => {
 
   const reference = data.reference
   return (
-   
+
     <>
       <div>
          {contextHolder}
@@ -105,7 +106,7 @@ const Demandemp = ({ data }) => {
           key={data.id}
         >
           <div>
-            
+
             {" "}
             {data.typedemouvement === "entree" ? (
               <>
@@ -134,15 +135,15 @@ const Demandemp = ({ data }) => {
             style={{ marginRight: "14px", width: "300px" }}
             size="small"
           />
-          
+
           <div style={{display:"flex"}}>
-          <Countdown  
-            value={timeLeft} 
-            valueStyle={{fontSize: 16, color: "#e43b2e"}} 
+          <Countdown
+            value={timeLeft}
+            valueStyle={{fontSize: 16, color: "#e43b2e"}}
             format="mm:ss"
             suffix={<Button onClick={() => setTimeLeft(Date.now() + 1000 * 60 * 1)}>Restart</Button>}
             onFinish={ () => handleCountdownFinish(reference) }
-  
+
           />
             {current < steps.length && (
               <Button style={{
@@ -168,12 +169,12 @@ const Demandemp = ({ data }) => {
                 Annuler
               </Button>
             )}
-        
+
           </div>
         </div>
       </div>
     </>
-     
+
 
   );
 };
